@@ -11,7 +11,7 @@ export const signup = async (req, res) => {
   const avatar = 'default-1.png';
 
   try {
-    const checkUser = await pool.query('SELECT username, email FROM users WHERE email = $1 OR username = $2;', [email, username]);
+    const checkUser = await pool.query('SELECT email, username FROM users WHERE email = $1 OR username = $2;', [email, username]);
 
     if (checkUser.rows.length > 0) {
       const existing = checkUser.rows[0];
