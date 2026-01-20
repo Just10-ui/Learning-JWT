@@ -38,3 +38,31 @@ export const signup = async (req, res) => {
     res.status(500).json({message: 'Server error'});
   }
 };
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE email = $1;', [email]);
+    const users = result.rows[0];
+    if (result.rows.length === 0) {
+      return res.status(409).json({message: 'Invalid email or password'});
+    }
+
+    const isMatch = await bcrypt.compare(password, users.password);
+    if(!isMatch) {
+      return res.status(409).json({message: 'Invalid email or password'});
+    }
+
+    const token = jwt.sign(
+      {userId: result.rows[0].id, email: result.rows[0].email},
+      process.env.SECRET_TOKEN,
+      {expiresIn: '1h'}
+    );
+
+    res.status(200).json({message: 'Login successfully', token})
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message: 'Server error'});
+  }
+};
