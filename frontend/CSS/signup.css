@@ -14,6 +14,7 @@ body {
 
 .container {
   border: 1px solid #000;
+  border-radius: 10px;
   width: 40vw;
   height: fit-content;
   position: absolute;
@@ -56,5 +57,15 @@ form #signup:hover {
 
 form p {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 15px;
+}
+
+#error {
+  font-size: .7rem;
+  text-align: left;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #ff0000;
+  opacity: 0;
+  transition: opacity .3s ease;
 }
